@@ -1,13 +1,14 @@
 #!/bin/bash
 set -x
 set -e
-HOST=myhostname
-USERNAME=myusername
+
+source common
+source vars
+
 HOME_DIR="/home/${USERNAME}"
-SWAP_SIZE=4G
-echo DISK="$1", HOST="$HOST", USERNAME="$USERNAME", HOME_DIR="$HOME_DIR"
+
 # grub as a bootloader
-grub-install --target=i386-pc --recheck "$1"
+grub-install --target=${GRUB_TARGET} --recheck "$1"
 # This makes the grub timeout 0, it's faster than 5 :)
 sudo sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -18,16 +19,8 @@ systemctl enable ntpd.service
 echo "$HOST" > /etc/hostname
 # inject vimrc config to default user dir if you like vim
 echo -e 'runtime! archlinux.vim\nsyntax on' > /etc/skel/.vimrc
-# adding your normal user with additional wheel group so can sudo
-useradd -m -G wheel -s /bin/bash "$USERNAME"
-# adding public key both to root and user for ssh key access
-mkdir -m 700 "$HOME_DIR/.ssh"
-mkdir -m 700 /root/.ssh
-cp /authorized_keys "/$HOME_DIR/.ssh"
-cp /authorized_keys /root/.ssh
-chown -R "$USERNAME:$USERNAME" "$HOME_DIR/.ssh"
 # adjust your timezone here
-ln -f -s /usr/share/zoneinfo/Australia/Melbourne /etc/localtime
+ln -f -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 hwclock --systohc
 # adjust your name servers here if you don't want to use google
 echo 'name_servers="8.8.8.8 8.8.4.4"' >> /etc/resolvconf.conf

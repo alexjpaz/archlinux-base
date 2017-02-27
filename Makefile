@@ -1,3 +1,3 @@
 build:
-	cd files && tar zcvf ../pkg.tar.gz .
+	cd src && tar zcvf ../pkg.tar.gz .
 
