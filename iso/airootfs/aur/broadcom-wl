@@ -2,7 +2,7 @@
 AIROOTFS=$ARCHLIVE_DIR/airootfs
 AURDIR=$AIROOTFS/opt/aur
 
-mkdir $AURDIR || "/tmp/aur already exists"
+mkdir -p $AURDIR || "/tmp/aur already exists"
 cd $AURDIR
 curl -sL https://aur.archlinux.org/cgit/aur.git/snapshot/broadcom-wl.tar.gz | tar xvz
 cd broadcom-wl
