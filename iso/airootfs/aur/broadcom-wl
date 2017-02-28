@@ -1,9 +1,10 @@
 #!/bin/bash
-temp=/opt/aur
+AIROOTFS=$ARCHLIVE_DIR/airootfs
+AURDIR=$AIROOTFS/opt/aur
 
-mkdir /opt/aur || "/tmp/aur already exists"
-cd /opt/aur
+mkdir $AURDIR || "/tmp/aur already exists"
+cd $AURDIR
 curl -sL https://aur.archlinux.org/cgit/aur.git/snapshot/broadcom-wl.tar.gz | tar xvz
 cd broadcom-wl
-chmod 777 -R /opt/aur
+chmod 777 -R $AURDIR
 sudo -u nobody makepkg -s
