@@ -1,6 +1,0 @@
-#!/bin/bash
-AIROOTFS=$ARCHLIVE_DIR/airootfs
-echo "Adding packges"
-cat $AIROOTFS/packages >> $ARCHLIVE_DIR/packages.both
-
-$AIROOTFS/aur/broadcom-wl

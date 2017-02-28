@@ -1,0 +1,32 @@
+#!/bin/bash
+
+CMD=${1:-build}
+shift 1
+ARGS=$@
+
+set -x
+set -e
+
+
+try() {
+  $@ || echo "Skipping '$*'"
+}
+
+build() {
+  local ARCH='x86_64'
+  echo "Downloading..."
+  if [[ ! -f input.tar.gz ]]; then
+    curl -sL "https://archive.archlinux.org/iso/2017.02.01/archlinux-bootstrap-2017.02.01-${ARCH}.tar.gz" > input.tar.gz
+  fi
+  echo "Repackaging..."
+  if [[ ! -f ouput.tar.gz ]]; then
+    try tar xf input.tar.gz
+    pushd "root.${ARCH}"
+    try tar czf ../bootstrap.tar.gz *
+    popd
+
+  fi
+  docker build --build-arg architecture=${ARCH} --tag archlinux-${ARCH}-base .
+}
+
+$CMD $ARGS
