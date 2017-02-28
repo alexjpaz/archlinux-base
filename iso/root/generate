@@ -1,3 +1,0 @@
-#!/bin/bash
-echo "Adding packges"
-cat $ARCHLIVE_DIR/packages >> $ARCHLIVE_DIR/packages.both

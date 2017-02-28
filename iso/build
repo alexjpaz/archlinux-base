@@ -1,0 +1,22 @@
+#!/bin/bash
+
+retry() {
+  command=${1}
+  retries=${2:-5}
+  wait_retry=${3:-5}
+
+  for i in $(seq 1 $retries); do
+    (
+      set -e
+      $command
+    )
+    ret_value=$?
+    [ $ret_value -eq 0 ] && break
+    echo "> failed with $ret_value, waiting to retry..."
+    sleep $wait_retry
+  done
+
+  [ $ret_value -eq 0 ] || exit $ret_value
+}
+
+retry make

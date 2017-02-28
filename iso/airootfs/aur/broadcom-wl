@@ -1,0 +1,9 @@
+#!/bin/bash
+temp=/opt/aur
+
+mkdir /opt/aur || "/tmp/aur already exists"
+cd /opt/aur
+curl -sL https://aur.archlinux.org/cgit/aur.git/snapshot/broadcom-wl.tar.gz | tar xvz
+cd broadcom-wl
+chmod 777 -R /opt/aur
+sudo -u nobody makepkg -s

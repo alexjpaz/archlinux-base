@@ -12,4 +12,4 @@ rm -r /etc/initcpio
 pacman-key --init
 pacman-key --populate archlinux
 
-
+pacman -U /opt/aur/broadcom-wl/*.tar.xz

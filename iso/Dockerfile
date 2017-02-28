@@ -9,7 +9,11 @@ RUN mkdir $ARCHLIVE_DIR
 
 RUN cp -r /usr/share/archiso/configs/releng/* $ARCHLIVE_DIR
 
-ADD root $ARCHLIVE_DIR
-RUN $ARCHLIVE_DIR/generate
+RUN pacman -Syy --noconfirm linux linux-headers
+RUN pacman -S --noconfirm --needed base-devel
+
+ADD airootfs $ARCHLIVE_DIR/airootfs
+
+RUN $ARCHLIVE_DIR/airootfs/generate
 
 CMD /archlive/build.sh -v
